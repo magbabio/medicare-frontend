@@ -185,7 +185,7 @@ const Show = () => {
     <form onSubmit={onSubmit} > 
     <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
                 <Typography variant="h4" component="h2" sx={{ color: 'blue' }}>
-                  {params.id ? "Editar especialidad" : "Registrar especialidad"}
+                  Detalles de la especialidad
                 </Typography>
     </Stack>  
     {successMessage && (

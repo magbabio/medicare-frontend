@@ -12,6 +12,7 @@ const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const SpecialtiesForm = Loadable(lazy(() => import('views/utilities/Form')));
+const SpecialtiesShow = Loadable(lazy(() => import('views/utilities/Show')));
 const SpecialtiesTrash = Loadable(lazy(() => import('views/utilities/Trash')));
 
 // const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
@@ -55,6 +56,10 @@ const MainRoutes = {
     {
       path: 'specialties/create',
       element: <SpecialtiesForm />
+    },
+    {
+      path: 'specialties/show/:id',
+      element: <SpecialtiesShow />
     },
     {
       path: 'specialties/edit/:id',

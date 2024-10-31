@@ -110,6 +110,10 @@ const UIColor = () => {
       getData();
   }, []);
 
+  const handleDetails = (id) => {
+    navigate(`/specialties/show/${id}`);
+  }
+
   const handleUpdate = (id) => {
     navigate(`/specialties/edit/${id}`);
 };
@@ -211,7 +215,7 @@ const handleDelete = async (id) => {
                                       <TableCell>{specialty.name}</TableCell> {/* Asegúrate de que esto coincida */}
                                       <TableCell>{new Date(specialty.createdAt).toLocaleDateString()}</TableCell> {/* Formato de fecha */}
                                       <TableCell>
-                                          <IconButton color="primary" aria-label="info">
+                                          <IconButton color="primary" aria-label="info" onClick={() => handleDetails(specialty.id)}>
                                               <Info />
                                           </IconButton>
                                           <IconButton color="primary" aria-label="editar" onClick={() => handleUpdate(specialty.id)}>
