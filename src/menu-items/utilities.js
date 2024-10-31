@@ -1,19 +1,26 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill } from '@tabler/icons-react';
+import { 
+  IconTypography,   
+  IconClinicMedical,
+  IconUserDoctor,
+  IconCalendarEvent,
+  IconHeartbeat
+} from '@tabler/icons-react';
 
 // constant
 const icons = {
   IconTypography,
-  IconPalette,
-  IconShadow,
-  IconWindmill
+  IconClinicMedical,
+  IconUserDoctor,
+  IconCalendarEvent,
+  IconHeartbeat
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
 
 const utilities = {
   id: 'utilities',
-  title: 'Utilities',
+  title: '',
   type: 'group',
   children: [
     {
@@ -26,18 +33,42 @@ const utilities = {
     },
     {
       id: 'specialties',
-      title: 'Specialties',
+      title: 'Especialidades',
       type: 'item',
       url: '/specialties',
       icon: icons.IconPalette,
       breadcrumbs: false
     },
     {
-      id: 'util-shadow',
-      title: 'Shadow',
+      id: 'doctors',
+      title: 'Cubículos',
       type: 'item',
-      url: '/utils/util-shadow',
-      icon: icons.IconShadow,
+      url: '/cubicles',
+      icon: icons.IconClinicMedical,
+      breadcrumbs: false
+    },
+    {
+      id: 'doctors',
+      title: 'Doctores',
+      type: 'item',
+      url: '/doctors',
+      icon: icons.IconUserDoctor,
+      breadcrumbs: false
+    },
+    {
+      id: 'doctors',
+      title: 'Horarios',
+      type: 'item',
+      url: '/schedules',
+      icon: icons.IconCalendarEvent,
+      breadcrumbs: false
+    },
+    {
+      id: 'doctors',
+      title: 'Pacientes',
+      type: 'item',
+      url: '/schedules',
+      icon: icons.IconHeartbeat,
       breadcrumbs: false
     }
   ]

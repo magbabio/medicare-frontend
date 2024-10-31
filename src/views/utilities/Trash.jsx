@@ -128,7 +128,7 @@ const Trash = () => {
   return (
       <>
  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
-                <Typography variant="h4" component="h2" sx={{ color: 'blue' }}>
+                <Typography variant="h4" component="h2" sx={{ color: '#2862f5' }}>
                     Listado de especialidades ofrecidas
                 </Typography>
                 <Stack direction="row" spacing={1}>

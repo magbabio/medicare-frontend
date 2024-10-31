@@ -68,7 +68,11 @@ const MainRoutes = {
     {
       path: 'specialties/trash',
       element: <SpecialtiesTrash />
-    },    
+    },  
+    {
+      path: 'doctors',
+      element: <UtilsColor />
+    },  
     // {
     //   path: 'icons',
     //   children: [

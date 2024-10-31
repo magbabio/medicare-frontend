@@ -173,7 +173,7 @@ const handleDelete = async (id) => {
   return (
       <>
  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
-                <Typography variant="h4" component="h2" sx={{ color: 'blue' }}>
+                <Typography variant="h4" component="h2" sx={{ color: 'primary.main' }}>
                     Listado de especialidades ofrecidas
                 </Typography>
                 <Stack direction="row" spacing={1}>

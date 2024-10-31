@@ -184,7 +184,7 @@ const Form = () => {
     <>
     <form onSubmit={onSubmit} > 
     <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
-                <Typography variant="h4" component="h2" sx={{ color: 'blue' }}>
+                <Typography variant="h4" component="h2" sx={{ color: '#2862f5' }}>
                   {params.id ? "Editar especialidad" : "Registrar especialidad"}
                 </Typography>
     </Stack>  
