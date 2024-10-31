@@ -1,18 +1,18 @@
 // assets
 import { 
-  IconTypography,   
-  IconClinicMedical,
-  IconUserDoctor,
-  IconCalendarEvent,
+  IconHome,   
+  IconBuildingHospital,
+  IconUser,
+  IconCalendar,
   IconHeartbeat
 } from '@tabler/icons-react';
 
 // constant
 const icons = {
-  IconTypography,
-  IconClinicMedical,
-  IconUserDoctor,
-  IconCalendarEvent,
+  IconHome,
+  IconBuildingHospital,
+  IconUser,
+  IconCalendar,
   IconHeartbeat
 };
 
@@ -28,7 +28,7 @@ const utilities = {
       title: 'Dashboard',
       type: 'item',
       url: '/dashboard/default',
-      icon: icons.IconTypography,
+      icon: icons.IconHome,
       breadcrumbs: false
     },
     {
@@ -36,7 +36,7 @@ const utilities = {
       title: 'Especialidades',
       type: 'item',
       url: '/specialties',
-      icon: icons.IconPalette,
+      icon: icons.IconHeartbeat,
       breadcrumbs: false
     },
     {
@@ -44,7 +44,7 @@ const utilities = {
       title: 'Cubículos',
       type: 'item',
       url: '/cubicles',
-      icon: icons.IconClinicMedical,
+      icon: icons.IconBuildingHospital,
       breadcrumbs: false
     },
     {
@@ -52,7 +52,7 @@ const utilities = {
       title: 'Doctores',
       type: 'item',
       url: '/doctors',
-      icon: icons.IconUserDoctor,
+      icon: icons.IconUser,
       breadcrumbs: false
     },
     {
@@ -60,7 +60,7 @@ const utilities = {
       title: 'Horarios',
       type: 'item',
       url: '/schedules',
-      icon: icons.IconCalendarEvent,
+      icon: icons.IconCalendar,
       breadcrumbs: false
     },
     {
@@ -68,7 +68,7 @@ const utilities = {
       title: 'Pacientes',
       type: 'item',
       url: '/schedules',
-      icon: icons.IconHeartbeat,
+      icon: icons.IconUser,
       breadcrumbs: false
     }
   ]
