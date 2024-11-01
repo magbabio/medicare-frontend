@@ -173,24 +173,22 @@ const handleDelete = async (id) => {
   return (
       <>
  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
-                <Typography variant="h4" component="h2" sx={{ color: 'primary.main' }}>
+                <Typography variant="h2" component="h2" sx={{ color: 'primary.main' }}>
                     Listado de especialidades ofrecidas
                 </Typography>
                 <Stack direction="row" spacing={1}>
                     <Button
                         variant="contained"
-                        color="primary"
                         startIcon={<Add />} // Icono para "Registrar Especialidad"
-                        sx={{ borderRadius: '20px' }} // Bordes redondeados
+                        sx={{ bg: 'primary.main', borderRadius: '20px' }} // Bordes redondeados
                         onClick={() => navigate("/specialties/create")}
                     >
                         Registrar Especialidad
                     </Button>
                     <Button
                         variant="contained"
-                        color="secondary"
                         startIcon={<DeleteOutline />} // Icono para "Papelera"
-                        sx={{ borderRadius: '20px' }} // Bordes redondeados
+                        sx={{ bg: 'primary.main', borderRadius: '20px' }} // Bordes redondeados
                         onClick={() => navigate("/specialties/trash")}
                     >
                         Papelera

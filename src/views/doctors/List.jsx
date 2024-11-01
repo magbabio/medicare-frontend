@@ -207,7 +207,7 @@ const handleDelete = async (id) => {
                               .map((doctor) => (
                                   <TableRow key={doctor.id}>
                                       <TableCell>{doctor.firstName} {doctor.lastName}</TableCell> 
-                                      <TableCell>{doctor.specialty}</TableCell> 
+                                      <TableCell>{doctor.Specialty.name}</TableCell> 
                                       <TableCell>{new Date(doctor.createdAt).toLocaleDateString()}</TableCell>
                                       <TableCell>{doctor.cedula}</TableCell> 
                                       <TableCell>
