@@ -40,7 +40,7 @@ const utilities = {
       breadcrumbs: false
     },
     {
-      id: 'doctors',
+      id: 'cubicles',
       title: 'Cubículos',
       type: 'item',
       url: '/cubicles',
@@ -56,7 +56,7 @@ const utilities = {
       breadcrumbs: false
     },
     {
-      id: 'doctors',
+      id: 'schedules',
       title: 'Horarios',
       type: 'item',
       url: '/schedules',
@@ -64,10 +64,10 @@ const utilities = {
       breadcrumbs: false
     },
     {
-      id: 'doctors',
+      id: 'patients',
       title: 'Pacientes',
       type: 'item',
-      url: '/schedules',
+      url: '/patients',
       icon: icons.IconUser,
       breadcrumbs: false
     }
