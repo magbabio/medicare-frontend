@@ -4,15 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    IconButton,
-    TablePagination,
     Grid,
     Typography,
     Button,
@@ -34,7 +25,8 @@ import LoadingBackdrop from '../../utils/loading';
 
 import { valName, valDescription } from '../../utils/validations/specialtySchema';
 
-import { getSpecialtiesRequest, getSpecialtyRequest, updateSpecialtyRequest, createSpecialtyRequest } from '../../services/specialty/specialtyAPI';
+import { getSpecialtiesRequest } from '../../services/specialty/specialtyAPI';
+import { getDoctorRequest, createDoctorRequest, updateDoctorRequest } from '../../services/doctor/doctorAPI';
 
 const ColorBox = ({ bgcolor, title, data, dark }) => (
   <>
@@ -111,13 +103,19 @@ const Form = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const loadSpecialty = async () => {
+    const loadDoctor = async () => {
       if (params.id) {
         try {
           setIsLoading(true); 
-          const response = await getSpecialtyRequest(params.id);
-          setValue('name', response.data.Data.name);
-          setValue('description', response.data.Data.description);
+          const response = await getDoctorRequest(params.id);
+          setValue('firstName', response.data.Data.firstName);
+          setValue('lastName', response.data.Data.lastName);
+          setValue('specialtyId', response.data.Data.specialtyId);
+          setValue('phone', response.data.Data.phone);
+          setValue('cedula', response.data.Data.cedula);
+          setValue('birthday', response.data.Data.birthday);
+          setValue('gender', response.data.Data.gender);
+          setValue('perfil', response.data.Data.perfil);
         } catch (error) {
           const message = error.response.data.Message;
           setErrorMessage(message);
@@ -127,7 +125,7 @@ const Form = () => {
       }
     };
   
-    loadSpecialty();
+    loadDoctor();
   }, [params.id, setValue]); 
 
   // Traer especialidades
@@ -171,12 +169,12 @@ const Form = () => {
     if (params.id) {
       try {
         setIsLoading(true);
-        const response = await updateSpecialtyRequest(params.id,data);
+        const response = await updateDoctorRequest(params.id,data);
         const responseData = response.data;
         const message = responseData.Message;
         setSuccessMessage(message);
         setTimeout(() => {
-          navigate('/specialties');
+          navigate('/doctors');
         }, 2000);
       } catch (error) {
         const message = error.response.data.Message;
@@ -186,17 +184,20 @@ const Form = () => {
       }
     } else {
       try {
-        const response = await createSpecialtyRequest(data);
+        const response = await createDoctorRequest(data);
+        console.log('holaaa',response);
+        console.log('holaaaa',data);
         const responseData = response.data;
         const message = responseData.Message;
     
         setSuccessMessage(message);
   
         setTimeout(() => {
-          navigate('/specialties');
+          navigate('/doctors');
         }, 2000);
     
       } catch (error) {
+        console.log(error);
         const message = error.response.data.Message;
         setErrorMessage(message);
       } finally {
@@ -210,7 +211,7 @@ const Form = () => {
     <form onSubmit={onSubmit} > 
     <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
                 <Typography variant="h2" component="h2" sx={{ color: '#2862f5' }}>
-                  {params.id ? "Editar especialidad" : "Registrar especialidad"}
+                  {params.id ? "Editar doctor" : "Registrar doctor"}
                 </Typography>
     </Stack>  
     {successMessage && (
@@ -386,7 +387,6 @@ const Form = () => {
         </Stack>
     </MainCard>
 
-    {/* Botón de "Registrar Especialidad" posicionado a la derecha */}
     <Stack direction="row" justifyContent="flex-end" sx={{ pr: 1 }}>
         <Button
             variant="contained"
@@ -394,11 +394,11 @@ const Form = () => {
             startIcon={<Add />}
             sx={{
                 borderRadius: '20px',
-                mt: 1, // Margen superior
+                mt: 1, 
             }}
             type="submit"
         >
-            {params.id ? "Editar especialidad" : "Registrar especialidad"}
+            {params.id ? "Editar doctor" : "Registrar doctor"}
         </Button>
     </Stack>
     </form>
