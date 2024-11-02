@@ -86,6 +86,10 @@ const MainRoutes = {
       element: <DoctorsShow />
     },
     {
+      path: 'doctors/edit/:id',
+      element: <DoctorsForm />
+    }, 
+    {
       path: 'doctors/trash',
       element: <DoctorsTrash />
     },

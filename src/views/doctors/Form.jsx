@@ -116,6 +116,7 @@ const Form = () => {
           setValue('cedula', response.data.Data.cedula);
           setValue('gender', response.data.Data.gender);
           setValue('perfil', response.data.Data.perfil);
+          setValue('email', response.data.Data.User.email);
         } catch (error) {
           const message = error.response.data.Message;
           setErrorMessage(message);
@@ -389,7 +390,6 @@ const Form = () => {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    required
                     fullWidth
                     label="Contraseña"
                     id="password"
@@ -418,7 +418,6 @@ const Form = () => {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    required
                     fullWidth
                     label="Confirmar contraseña"
                     id="confirmPassword"

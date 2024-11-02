@@ -8,8 +8,8 @@ export const valCedula = (value) => {
         return 'Cédula no es válida';
     }
   
-    if (value.trim().length > 9) {
-        return 'Cédula no debe tener más de 9 caracteres';
+    if (value.trim().length > 10) {
+        return 'Cédula no debe tener más de 10 caracteres';
     }
   
     return null;
