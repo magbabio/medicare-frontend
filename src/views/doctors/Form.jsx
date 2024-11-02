@@ -152,19 +152,19 @@ const Form = () => {
     setErrorMessage('');
     setSuccessMessage(''); 
     
-    const nameError = valName(data.name);
-    const descriptionError = valDescription(data.description);
+    // const nameError = valName(data.name);
+    // const descriptionError = valDescription(data.description);
 
-    if (
-      nameError ||
-      descriptionError
-    ) {
-      setErrors({
-        name: nameError,
-        description: descriptionError,
-      });
-      return;
-    }
+    // if (
+    //   nameError ||
+    //   descriptionError
+    // ) {
+    //   setErrors({
+    //     name: nameError,
+    //     description: descriptionError,
+    //   });
+    //   return;
+    // }
 
     if (params.id) {
       try {
@@ -185,8 +185,6 @@ const Form = () => {
     } else {
       try {
         const response = await createDoctorRequest(data);
-        console.log('holaaa',response);
-        console.log('holaaaa',data);
         const responseData = response.data;
         const message = responseData.Message;
     
@@ -210,9 +208,9 @@ const Form = () => {
     <>
     <form onSubmit={onSubmit} > 
     <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
-                <Typography variant="h2" component="h2" sx={{ color: '#2862f5' }}>
-                  {params.id ? "Editar doctor" : "Registrar doctor"}
-                </Typography>
+      <Typography variant="h2" component="h2" sx={{ color: '#2862f5' }}>
+        {params.id ? "Editar doctor" : "Registrar doctor"}
+      </Typography>
     </Stack>  
     {successMessage && (
         <DescriptionAlert severity="success" title="Éxito" description={successMessage} />
