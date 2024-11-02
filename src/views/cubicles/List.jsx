@@ -72,8 +72,6 @@ ColorBox.propTypes = {
   dark: PropTypes.bool
 };
 
-// ===============================|| UI COLOR ||=============================== //
-
 const List = () => {
   const theme = useTheme();
   const navigate = useNavigate()

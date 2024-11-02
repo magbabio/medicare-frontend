@@ -17,6 +17,9 @@ const SpecialtiesShow = Loadable(lazy(() => import('views/utilities/Show')));
 const SpecialtiesTrash = Loadable(lazy(() => import('views/utilities/Trash')));
 
 const CubiclesList = Loadable(lazy(() => import('views/cubicles/List')));
+const CubiclesForm = Loadable(lazy(() => import('views/cubicles/Form')));
+const CubiclesShow = Loadable(lazy(() => import('views/cubicles/Show')));
+const CubiclesTrash = Loadable(lazy(() => import('views/cubicles/Trash')));
 
 const DoctorsList = Loadable(lazy(() => import('views/doctors/List')));
 const DoctorsShow = Loadable(lazy(() => import('views/doctors/Show')));
@@ -83,7 +86,23 @@ const MainRoutes = {
     {
       path: 'cubicles',
       element: <CubiclesList />
-    }, 
+    },
+    {
+      path: 'cubicles/create',
+      element: <CubiclesForm />
+    },
+    {
+      path: 'cubicles/show/:id',
+      element: <CubiclesShow />
+    },
+    {
+      path: 'cubicles/edit/:id',
+      element: <CubiclesForm />
+    },   
+    {
+      path: 'cubicles/trash',
+      element: <CubiclesTrash />
+    },  
     {
       path: 'doctors',
       element: <DoctorsList />

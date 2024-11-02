@@ -18,4 +18,5 @@ export const updateCubicleRequest = (id, cubicle) =>
 
 export const deleteCubicleRequest = id => http.delete(`${API}/cubicle/delete/${id}`);
 
+export const activateCubicleRequest = id => http.put(`${API}/cubicle/activate/${id}`);
 

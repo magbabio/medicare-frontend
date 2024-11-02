@@ -181,7 +181,7 @@ const Trash = () => {
                           <TableRow>
                               <TableCell>Nombre y apellido</TableCell>
                               <TableCell>Especialidad</TableCell>
-                              <TableCell>Fecha de creación</TableCell>
+                              <TableCell>Fecha de eliminación</TableCell>
                               <TableCell>Cédula de identidad</TableCell>
                               <TableCell>Acciones</TableCell>
                           </TableRow>
@@ -193,7 +193,7 @@ const Trash = () => {
                                 <TableRow key={doctor.id}>
                                 <TableCell>{doctor.firstName} {doctor.lastName}</TableCell> 
                                 <TableCell>{doctor.Specialty.name}</TableCell> 
-                                <TableCell>{new Date(doctor.createdAt).toLocaleDateString()}</TableCell>
+                                <TableCell>{new Date(doctor.deletedAt).toLocaleDateString()}</TableCell>
                                 <TableCell>{doctor.cedula}</TableCell> 
                                 <TableCell>
                                     <IconButton color="primary" aria-label="eliminar" onClick={() => handleOpenActivate(doctor.id, doctor.firstName, doctor.lastName)}>

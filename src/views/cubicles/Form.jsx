@@ -9,13 +9,6 @@ import {
     Button,
     Stack,
     TextField,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    Divider,
-    IconButton,
-    InputAdornment
 } from '@mui/material';
 import { Delete, Edit, Add, DeleteOutline, Visibility, VisibilityOff } from '@mui/icons-material';
 import MainCard from 'ui-component/cards/MainCard';
@@ -25,10 +18,9 @@ import { gridSpacing } from 'store/constant';
 import DescriptionAlert from '../../utils/alert';
 import LoadingBackdrop from '../../utils/loading';
 
-import { valCedula, valFirstName, valLastName, valPhone, valEmail } from '../../utils/validations/doctorSchema';
+import { valNumber, valDescription } from 'utils/validations/cubiclesSchema';
 
-import { getSpecialtiesRequest } from '../../services/specialty/specialtyAPI';
-import { getDoctorRequest, createDoctorRequest, updateDoctorRequest } from '../../services/doctor/doctorAPI';
+import { getCubicleRequest, createCubicleRequest, updateCubicleRequest } from '../../services/cubicle/cubicleAPI';
 
 const ColorBox = ({ bgcolor, title, data, dark }) => (
   <>
@@ -79,44 +71,27 @@ const Form = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const [specialties, setSpecialties] = useState([]); 
+  const [cubicles, setCubicles] = useState([]); 
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [errors, setErrors] = useState({});
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { register, handleSubmit, watch, setValue, control } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      specialtyId: "",
-      phone: "",
-      cedula: "",
-      gender: "",
-      perfil: "",
-      email: "",
-      password: ""
+      number: "",
+      description: "",
     },
   });
 
-  // Cargar doctor existente
-
   useEffect(() => {
-    const loadDoctor = async () => {
+    const loadCubicle = async () => {
       if (params.id) {
         try {
           setIsLoading(true); 
-          const response = await getDoctorRequest(params.id);
-          setValue('firstName', response.data.Data.firstName);
-          setValue('lastName', response.data.Data.lastName);
-          setValue('specialtyId', response.data.Data.specialtyId);
-          setValue('phone', response.data.Data.phone);
-          setValue('cedula', response.data.Data.cedula);
-          setValue('gender', response.data.Data.gender);
-          setValue('perfil', response.data.Data.perfil);
-          setValue('email', response.data.Data.User.email);
+          const response = await getCubicleRequest(params.id);
+          setValue('number', response.data.Data.number);
+          setValue('description', response.data.Data.description);
         } catch (error) {
           const message = error.response.data.Message;
           setErrorMessage(message);
@@ -126,27 +101,8 @@ const Form = () => {
       }
     };
   
-    loadDoctor();
+    loadCubicle();
   }, [params.id, setValue]); 
-
-  // Traer especialidades
-
-  useEffect(() => {
-    const getSpecialties = async () => {
-      try {
-        setIsLoading(true); 
-        const response = await getSpecialtiesRequest();
-        setSpecialties(response.data.Data);
-      } catch (error) {
-        const message = error.response.data.Message;
-        setErrorMessage(message);
-      } finally {
-        setIsLoading(false); 
-      }
-    };
-
-    getSpecialties();
-  }, []);
 
   // Enviar formulario - Crear y Actualizar
 
@@ -155,25 +111,16 @@ const Form = () => {
     setErrorMessage('');
     setSuccessMessage(''); 
     
-    const firstNameError = valFirstName(data.firstName);
-    const lastNameError = valLastName(data.lastName);
-    const phoneError = valPhone(data.phone);
-    const cedulaError = valCedula(data.cedula);
-    const emailError = valEmail(data.email);
+    const numberError = valNumber(data.number);
+    const descriptionError = valDescription(data.description);
 
     if (
-      firstNameError ||
-      lastNameError ||
-      phoneError ||
-      cedulaError ||
-      emailError
+      numberError ||
+      descriptionError 
     ) {
       setErrors({
-        firstName: firstNameError, 
-        lastNameError: lastNameError, 
-        phone: phoneError,
-        cedula: cedulaError,
-        email: emailError
+        number: numberError, 
+        description: descriptionError, 
       });
       return;
     }
@@ -181,12 +128,12 @@ const Form = () => {
     if (params.id) {
       try {
         setIsLoading(true);
-        const response = await updateDoctorRequest(params.id,data);
+        const response = await updateCubicleRequest(params.id,data);
         const responseData = response.data;
         const message = responseData.Message;
         setSuccessMessage(message);
         setTimeout(() => {
-          navigate('/doctors');
+          navigate('/cubicles');
         }, 2000);
       } catch (error) {
         const message = error.response.data.Message;
@@ -196,18 +143,17 @@ const Form = () => {
       }
     } else {
       try {
-        const response = await createDoctorRequest(data);
+        const response = await createCubicleRequest(data);
         const responseData = response.data;
         const message = responseData.Message;
     
         setSuccessMessage(message);
   
         setTimeout(() => {
-          navigate('/doctors');
+          navigate('/cubicles');
         }, 2000);
     
       } catch (error) {
-        console.log(error);
         const message = error.response.data.Message;
         setErrorMessage(message);
       } finally {
@@ -216,18 +162,12 @@ const Form = () => {
     }
   });
 
-  // Métodos contraseña
-  const password = watch("password");
-  const confirmPassword = watch("confirmPassword");
-
-
-
   return (
     <>
     <form onSubmit={onSubmit} > 
     <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
       <Typography variant="h2" component="h2" sx={{ color: '#2862f5' }}>
-        {params.id ? "Editar doctor" : "Registrar doctor"}
+        {params.id ? "Editar cubículo" : "Registrar cubículo"}
       </Typography>
     </Stack>  
     {successMessage && (
@@ -239,207 +179,46 @@ const Form = () => {
       <LoadingBackdrop isLoading={isLoading} />
     <MainCard sx={{ padding: 3, mb: 2 }}> {/* Añade margen inferior */}
         <Typography variant="h4" component="h4" sx={{ mb: 2, color: theme.palette.text.primary }}>
-            Detalles del doctor
+            Detalles del cubículo
         </Typography>
         
         <Stack spacing={2}>
             <Grid item xs={6} sm={6} md={6}>
             <Controller
-                name="firstName"
+                name="number"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     required
                     fullWidth
-                    label="Nombre"
-                    id="firstName"
-                    {...register("firstName")} 
-                    error={!!errors.firstName} 
-                    helperText={errors.firstName} 
+                    label="Número de cubículo"
+                    id="number"
+                    {...register("number")} 
+                    error={!!errors.number} 
+                    helperText={errors.number} 
                   />
                 )}
               />
-              </Grid>
-              <Grid item xs={6} sm={6} md={6}>
-              <Controller
-                name="lastName"
+              </Grid>    
+                <Controller
+                name="description"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     required
                     fullWidth
-                    label="Apellido"
-                    id="lastName"
-                    {...register("lastName")} 
-                    error={!!errors.lastName} 
-                    helperText={errors.lastName} 
-                  />
-                )}
-              />
-              </Grid>
-              <FormControl fullWidth required>
-              <InputLabel>Seleccione especialidad</InputLabel>
-              <Controller
-                control={control}
-                name="specialtyId"
-                render={({ field }) => (
-                    <Select
-                    {...field}
-                    id="specialtyId"
-                    label="Seleccione especialidad"
-                    fullWidth
-                    >
-                    {specialties.map((specialty) => (
-                        <MenuItem key={specialty.id} value={specialty.id}>
-                        {specialty.name}
-                        </MenuItem>
-                    ))}
-                    </Select>
-                )}
-                />
-                </FormControl>
-                <Controller
-                name="phone"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    required
-                    fullWidth
-                    label="Teléfono"
-                    id="phone"
-                    {...register("phone")} 
-                    error={!!errors.phone} 
-                    helperText={errors.phone} 
-                  />
-                )}
-                />    
-                <Controller
-                name="cedula"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    required
-                    fullWidth
-                    label="Cedula"
-                    id="cedula"
-                    {...register("cedula")} 
-                    error={!!errors.cedula} 
-                    helperText={errors.cedula} 
-                  />
-                )}
-                />
-                <FormControl fullWidth required>
-                <InputLabel>Género</InputLabel>
-                <Controller
-                    control={control}
-                    name="gender"
-                    render={({ field }) => (
-                    <Select
-                        {...field}
-                        id="gender"
-                        label="Género"
-                    >
-                        <MenuItem value="F">Femenino</MenuItem>
-                        <MenuItem value="M">Masculino</MenuItem>
-                    </Select>
-                    )}
-                />
-                </FormControl>
-                <Controller
-                name="perfil"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    required
-                    fullWidth
-                    label="Perfil"
-                    id="perfil"
-                    {...register("perfil")} 
-                    error={!!errors.perfil} 
-                    helperText={errors.perfil} 
+                    label="Descripción del cubículo"
+                    id="description"
+                    {...register("description")} 
+                    error={!!errors.description} 
+                    helperText={errors.description} 
                     multiline
                     rows={4}
                   />
                 )}
-              />            
-              <Divider/>     
-              <Controller
-                name="email"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    required
-                    fullWidth
-                    label="Correo electrónico"
-                    id="email"
-                    {...register("email")} 
-                    error={!!errors.email} 
-                    helperText={errors.email} 
-                  />
-                )}
-              /> 
-              <Controller
-                name="password"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    fullWidth
-                    label="Contraseña"
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    {...register("password")} 
-                    error={!!errors.password} 
-                    helperText={errors.password}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}                     
-                  />
-                )}
-              />
-              <Controller
-                name="confirmPassword"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    fullWidth
-                    label="Confirmar contraseña"
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "confirmPassword"}
-                    {...register("confirmPassword")} 
-                    error={!!errors.confirmPassword} 
-                    helperText={errors.confirmPassword}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            edge="end"
-                          >
-                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}                     
-                  />
-                )}
-              />                                                                                
+              />                                                                                            
         </Stack>
     </MainCard>
 
@@ -454,7 +233,7 @@ const Form = () => {
             }}
             type="submit"
         >
-            {params.id ? "Editar doctor" : "Registrar doctor"}
+            {params.id ? "Editar cubículo" : "Registrar cubículo"}
         </Button>
     </Stack>
     </form>
