@@ -11,9 +11,13 @@ const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
+
 const SpecialtiesForm = Loadable(lazy(() => import('views/utilities/Form')));
 const SpecialtiesShow = Loadable(lazy(() => import('views/utilities/Show')));
 const SpecialtiesTrash = Loadable(lazy(() => import('views/utilities/Trash')));
+
+const CubiclesList = Loadable(lazy(() => import('views/cubicles/List')));
+
 const DoctorsList = Loadable(lazy(() => import('views/doctors/List')));
 const DoctorsShow = Loadable(lazy(() => import('views/doctors/Show')));
 const DoctorsForm = Loadable(lazy(() => import('views/doctors/Form')));
@@ -76,6 +80,10 @@ const MainRoutes = {
       path: 'specialties/trash',
       element: <SpecialtiesTrash />
     },  
+    {
+      path: 'cubicles',
+      element: <CubiclesList />
+    }, 
     {
       path: 'doctors',
       element: <DoctorsList />
