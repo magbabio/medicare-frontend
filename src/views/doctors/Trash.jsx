@@ -25,9 +25,9 @@ import { gridSpacing } from 'store/constant';
 import DescriptionAlert from 'utils/alert';
 import LoadingBackdrop from 'utils/loading';
 
-import { getDeletedDoctorsRequest } from '../../services/doctor/doctorAPI';
+import AlertDialog from 'ui-component/AlertDialog';
 
-// ===============================|| COLOR BOX ||=============================== //
+import { getDeletedDoctorsRequest, activateDoctorRequest } from '../../services/doctor/doctorAPI';
 
 const ColorBox = ({ bgcolor, title, data, dark }) => (
   <>
@@ -72,7 +72,6 @@ ColorBox.propTypes = {
   dark: PropTypes.bool
 };
 
-// ===============================|| UI COLOR ||=============================== //
 
 const Trash = () => {
   const theme = useTheme();
@@ -82,6 +81,16 @@ const Trash = () => {
   const [error, setError] = useState(null); 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [open, setOpen] = useState(null);
+
+  const [selectedDoctorId, setSelectedDoctorId] = useState('');
+  const [selectedDoctorName, setSelectedDoctorName] = useState('');
+  const [selectedDoctorLastName, setSelectedDoctorLastName] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
 
   useEffect(() => {
       const getData = async () => {
@@ -98,6 +107,33 @@ const Trash = () => {
       getData();
   }, []);
 
+  const handleOpenActivate = (id, firstName, lastName) => {
+    setSelectedDoctorId(id);
+    setSelectedDoctorName(firstName);
+    setSelectedDoctorLastName(lastName);
+    setOpenAlertDialog(true);
+  }
+
+  const handleActivate = async (id) => {
+    try {
+      setOpenAlertDialog(false); 
+      handleCloseMenu();
+      setIsLoading(true);
+      console.log('id',id);
+      const response = await activateDoctorRequest(id);
+      console.log('aaaa',response);
+      const message = response.data.Message;
+      setSuccessMessage(message);
+    } catch (error) {
+      const message = error.response.data.Message;
+      setErrorMessage(message);
+    } finally {
+      setIsLoading(false);
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);  
+  }
 
   const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -160,10 +196,7 @@ const Trash = () => {
                                 <TableCell>{new Date(doctor.createdAt).toLocaleDateString()}</TableCell>
                                 <TableCell>{doctor.cedula}</TableCell> 
                                 <TableCell>
-                                    <IconButton color="primary" aria-label="info" onClick={() => handleDetails(doctor.id)}>
-                                        <Info />
-                                    </IconButton>
-                                    <IconButton color="primary" aria-label="eliminar" onClick={() => handleOpenDelete(doctor.id, doctor.firstName)}>
+                                    <IconButton color="primary" aria-label="eliminar" onClick={() => handleOpenActivate(doctor.id, doctor.firstName, doctor.lastName)}>
                                         <Check />
                                     </IconButton>
                                 </TableCell>
@@ -182,6 +215,22 @@ const Trash = () => {
                   />
               </TableContainer>
           </MainCard>
+          <AlertDialog 
+            openAlertDialog={openAlertDialog} 
+            onClose={() => setOpenAlertDialog(false)} 
+            onActionClick={() => handleActivate(selectedDoctorId)} 
+            title="Activar doctor"
+            description="¿Está seguro que desea activate el doctor"
+            name={`${selectedDoctorName} ${selectedDoctorLastName}`}
+            action="Activar"                  
+          /> 
+      {successMessage && (
+        <DescriptionAlert severity="success" title="Éxito" description={successMessage} />
+      )}
+      {errorMessage && (
+        <DescriptionAlert severity="error" title="Error" description={errorMessage} />
+      )}
+      <LoadingBackdrop isLoading={isLoading} />                    
       </>
   );
 };

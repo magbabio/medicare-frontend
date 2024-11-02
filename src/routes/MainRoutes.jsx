@@ -19,6 +19,9 @@ const DoctorsShow = Loadable(lazy(() => import('views/doctors/Show')));
 const DoctorsForm = Loadable(lazy(() => import('views/doctors/Form')));
 const DoctorsTrash = Loadable(lazy(() => import('views/doctors/Trash')));
 
+const PatientsList = Loadable(lazy(() => import('views/patients/List')));
+
+
 // const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 // const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
 
@@ -93,6 +96,10 @@ const MainRoutes = {
       path: 'doctors/trash',
       element: <DoctorsTrash />
     },
+    {
+      path: 'patients',
+      element: <PatientsList />
+    }, 
     // {
     //   path: 'icons',
     //   children: [

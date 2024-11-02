@@ -18,4 +18,4 @@ export const updateDoctorRequest = (id, doctor) =>
 
 export const deleteDoctorRequest = id => http.delete(`${API}/doctor/delete/${id}`);
 
-export const activateDoctorRequest = id => http.activate(`${API}/doctor/activate/${id}`);
+export const activateDoctorRequest = id => http.put(`${API}/doctor/activate/${id}`);
