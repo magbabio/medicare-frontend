@@ -13,9 +13,11 @@ import {
     MenuItem,
     FormControl,
     InputLabel,
-    Divider
+    Divider,
+    IconButton,
+    InputAdornment
 } from '@mui/material';
-import { Delete, Edit, Add, DeleteOutline } from '@mui/icons-material';
+import { Delete, Edit, Add, DeleteOutline, Visibility, VisibilityOff } from '@mui/icons-material';
 import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from 'store/constant';
@@ -23,7 +25,7 @@ import { gridSpacing } from 'store/constant';
 import DescriptionAlert from '../../utils/alert';
 import LoadingBackdrop from '../../utils/loading';
 
-import { valName, valDescription } from '../../utils/validations/specialtySchema';
+import { valCedula, valFirstName, valLastName, valPhone, valEmail } from '../../utils/validations/doctorSchema';
 
 import { getSpecialtiesRequest } from '../../services/specialty/specialtyAPI';
 import { getDoctorRequest, createDoctorRequest, updateDoctorRequest } from '../../services/doctor/doctorAPI';
@@ -74,20 +76,24 @@ ColorBox.propTypes = {
 
 const Form = () => {
   const theme = useTheme();
-  const [specialties, setSpecialties] = useState([]); 
-
   const navigate = useNavigate();
-
   const params = useParams();
 
-  const { register, handleSubmit, setValue, control } = useForm({
+  const [specialties, setSpecialties] = useState([]); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const { register, handleSubmit, watch, setValue, control } = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
       specialtyId: "",
       phone: "",
       cedula: "",
-      birthday: "",
       gender: "",
       perfil: "",
       email: "",
@@ -95,12 +101,7 @@ const Form = () => {
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const [errors, setErrors] = useState({});
+  // Cargar doctor existente
 
   useEffect(() => {
     const loadDoctor = async () => {
@@ -147,24 +148,35 @@ const Form = () => {
     getSpecialties();
   }, []);
 
+  // Enviar formulario - Crear y Actualizar
+
   const onSubmit = handleSubmit(async (data) => {
 
     setErrorMessage('');
     setSuccessMessage(''); 
     
-    // const nameError = valName(data.name);
-    // const descriptionError = valDescription(data.description);
+    const firstNameError = valFirstName(data.firstName);
+    const lastNameError = valLastName(data.lastName);
+    const phoneError = valPhone(data.phone);
+    const cedulaError = valCedula(data.cedula);
+    const emailError = valEmail(data.email);
 
-    // if (
-    //   nameError ||
-    //   descriptionError
-    // ) {
-    //   setErrors({
-    //     name: nameError,
-    //     description: descriptionError,
-    //   });
-    //   return;
-    // }
+    if (
+      firstNameError ||
+      lastNameError ||
+      phoneError ||
+      cedulaError ||
+      emailError
+    ) {
+      setErrors({
+        firstName: firstNameError, 
+        lastNameError: lastNameError, 
+        phone: phoneError,
+        cedula: cedulaError,
+        email: emailError
+      });
+      return;
+    }
 
     if (params.id) {
       try {
@@ -203,6 +215,12 @@ const Form = () => {
       }
     }
   });
+
+  // Métodos contraseña
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+
+
 
   return (
     <>
@@ -376,9 +394,22 @@ const Form = () => {
                     fullWidth
                     label="Contraseña"
                     id="password"
+                    type={showPassword ? "text" : "password"}
                     {...register("password")} 
                     error={!!errors.password} 
-                    helperText={errors.password} 
+                    helperText={errors.password}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}                     
                   />
                 )}
               />                                                                  
