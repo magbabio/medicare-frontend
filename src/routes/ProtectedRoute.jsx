@@ -1,16 +1,14 @@
-// import React from 'react';
-// import { Outlet, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from 'context/AuthContext';
 
-// import { useAuth } from 'src/context/AuthContext';
+const ProtectedRoute = ({ element, allowedRoles }) => {
+  const { token, userRole } = useAuth();
 
-// function ProtectedRoute() {
-//   const { loading, isAuthenticated } = useAuth();
+  const isAuthenticated = !!token; // Verifica si hay un token
+  const hasAccess = allowedRoles ? allowedRoles.includes(userRole) : true; // Verifica si el rol está permitido
 
-//   if (loading) return null
-//   const token = localStorage.getItem('token');
-//   if (!loading && !isAuthenticated && !token) return <Navigate to='/login' replace />
-  
-//   return <Outlet />;
-// }
+  return isAuthenticated && hasAccess ? element : <Navigate to="/login" />;
+};
 
-// export default ProtectedRoute;
+export default ProtectedRoute;

@@ -4,35 +4,22 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
+import ProtectedRoute from './ProtectedRoute';
+
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
-
 const SpecialtiesForm = Loadable(lazy(() => import('views/utilities/Form')));
 const SpecialtiesShow = Loadable(lazy(() => import('views/utilities/Show')));
 const SpecialtiesTrash = Loadable(lazy(() => import('views/utilities/Trash')));
-
 const CubiclesList = Loadable(lazy(() => import('views/cubicles/List')));
 const CubiclesForm = Loadable(lazy(() => import('views/cubicles/Form')));
-const CubiclesShow = Loadable(lazy(() => import('views/cubicles/Show')));
-const CubiclesTrash = Loadable(lazy(() => import('views/cubicles/Trash')));
-
 const DoctorsList = Loadable(lazy(() => import('views/doctors/List')));
-const DoctorsShow = Loadable(lazy(() => import('views/doctors/Show')));
 const DoctorsForm = Loadable(lazy(() => import('views/doctors/Form')));
-const DoctorsTrash = Loadable(lazy(() => import('views/doctors/Trash')));
-
 const PatientsList = Loadable(lazy(() => import('views/patients/List')));
-
-
-// const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-// const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
-
-// sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -43,14 +30,14 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: <ProtectedRoute element={<DashboardDefault />} allowedRoles={['admin']} />
     },
     {
       path: 'dashboard',
       children: [
         {
           path: 'default',
-          element: <DashboardDefault />
+          element: <ProtectedRoute element={<DashboardDefault />} allowedRoles={['admin']} />
         }
       ]
     },
@@ -59,92 +46,34 @@ const MainRoutes = {
       children: [
         {
           path: 'util-typography',
-          element: <UtilsTypography />
+          element: <ProtectedRoute element={<UtilsTypography />} allowedRoles={['admin']} />
         }
       ]
     },
     {
       path: 'specialties',
-      element: <UtilsColor />
+      element: <ProtectedRoute element={<UtilsColor />} allowedRoles={['admin']} />
     },
     {
       path: 'specialties/create',
-      element: <SpecialtiesForm />
+      element: <ProtectedRoute element={<SpecialtiesForm />} allowedRoles={['admin']} />
     },
     {
       path: 'specialties/show/:id',
-      element: <SpecialtiesShow />
+      element: <ProtectedRoute element={<SpecialtiesShow />} allowedRoles={['admin']} />
     },
-    {
-      path: 'specialties/edit/:id',
-      element: <SpecialtiesForm />
-    },   
-    {
-      path: 'specialties/trash',
-      element: <SpecialtiesTrash />
-    },  
     {
       path: 'cubicles',
-      element: <CubiclesList />
+      element: <ProtectedRoute element={<CubiclesList />} allowedRoles={['admin']} />
     },
-    {
-      path: 'cubicles/create',
-      element: <CubiclesForm />
-    },
-    {
-      path: 'cubicles/show/:id',
-      element: <CubiclesShow />
-    },
-    {
-      path: 'cubicles/edit/:id',
-      element: <CubiclesForm />
-    },   
-    {
-      path: 'cubicles/trash',
-      element: <CubiclesTrash />
-    },  
     {
       path: 'doctors',
-      element: <DoctorsList />
-    }, 
-    {
-      path: 'doctors/create',
-      element: <DoctorsForm />
-    },  
-    {
-      path: 'doctors/show/:id',
-      element: <DoctorsShow />
-    },
-    {
-      path: 'doctors/edit/:id',
-      element: <DoctorsForm />
-    }, 
-    {
-      path: 'doctors/trash',
-      element: <DoctorsTrash />
+      element: <ProtectedRoute element={<DoctorsList />} allowedRoles={['admin']} />
     },
     {
       path: 'patients',
-      element: <PatientsList />
-    }, 
-    // {
-    //   path: 'icons',
-    //   children: [
-    //     {
-    //       path: 'tabler-icons',
-    //       element: <UtilsTablerIcons />
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: 'icons',
-    //   children: [
-    //     {
-    //       path: 'material-icons',
-    //       element: <UtilsMaterialIcons />
-    //     }
-    //   ]
-    // },
+      element: <ProtectedRoute element={<PatientsList />} allowedRoles={['admin']} />
+    },
     {
       path: 'sample-page',
       element: <SamplePage />
