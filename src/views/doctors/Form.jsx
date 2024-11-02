@@ -21,7 +21,8 @@ import {
     Select,
     MenuItem,
     FormControl,
-    InputLabel
+    InputLabel,
+    Divider
 } from '@mui/material';
 import { Delete, Edit, Add, DeleteOutline } from '@mui/icons-material';
 import MainCard from 'ui-component/cards/MainCard';
@@ -290,7 +291,7 @@ const Form = () => {
                     {...field}
                     required
                     fullWidth
-                    label="Phone"
+                    label="Teléfono"
                     id="phone"
                     {...register("phone")} 
                     error={!!errors.phone} 
@@ -348,7 +349,40 @@ const Form = () => {
                     rows={4}
                   />
                 )}
-              />                                           
+              />            
+              <Divider/>     
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    label="Correo electrónico"
+                    id="email"
+                    {...register("email")} 
+                    error={!!errors.email} 
+                    helperText={errors.email} 
+                  />
+                )}
+              /> 
+              <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    label="Contraseña"
+                    id="password"
+                    {...register("password")} 
+                    error={!!errors.password} 
+                    helperText={errors.password} 
+                  />
+                )}
+              />                                                                  
         </Stack>
     </MainCard>
 
