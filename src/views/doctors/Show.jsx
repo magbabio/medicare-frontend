@@ -84,8 +84,6 @@ const Form = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [errors, setErrors] = useState({});
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { register, handleSubmit, watch, setValue, control } = useForm({
     defaultValues: {
@@ -116,6 +114,7 @@ const Form = () => {
           setValue('cedula', response.data.Data.cedula);
           setValue('gender', response.data.Data.gender);
           setValue('perfil', response.data.Data.perfil);
+          setValue('email', response.data.Data.User.email);
         } catch (error) {
           const message = error.response.data.Message;
           setErrorMessage(message);
@@ -146,80 +145,6 @@ const Form = () => {
 
     getSpecialties();
   }, []);
-
-  // Enviar formulario - Crear y Actualizar
-
-  const onSubmit = handleSubmit(async (data) => {
-
-    setErrorMessage('');
-    setSuccessMessage(''); 
-    
-    const firstNameError = valFirstName(data.firstName);
-    const lastNameError = valLastName(data.lastName);
-    const phoneError = valPhone(data.phone);
-    const cedulaError = valCedula(data.cedula);
-    const emailError = valEmail(data.email);
-
-    if (
-      firstNameError ||
-      lastNameError ||
-      phoneError ||
-      cedulaError ||
-      emailError
-    ) {
-      setErrors({
-        firstName: firstNameError, 
-        lastNameError: lastNameError, 
-        phone: phoneError,
-        cedula: cedulaError,
-        email: emailError
-      });
-      return;
-    }
-
-    if (params.id) {
-      try {
-        setIsLoading(true);
-        const response = await updateDoctorRequest(params.id,data);
-        const responseData = response.data;
-        const message = responseData.Message;
-        setSuccessMessage(message);
-        setTimeout(() => {
-          navigate('/doctors');
-        }, 2000);
-      } catch (error) {
-        const message = error.response.data.Message;
-        setErrorMessage(message);
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      try {
-        const response = await createDoctorRequest(data);
-        const responseData = response.data;
-        const message = responseData.Message;
-    
-        setSuccessMessage(message);
-  
-        setTimeout(() => {
-          navigate('/doctors');
-        }, 2000);
-    
-      } catch (error) {
-        console.log(error);
-        const message = error.response.data.Message;
-        setErrorMessage(message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  });
-
-  // Métodos contraseña
-  const password = watch("password");
-  const confirmPassword = watch("confirmPassword");
-
-
 
   return (
     <>
