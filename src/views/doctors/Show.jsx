@@ -223,10 +223,9 @@ const Form = () => {
 
   return (
     <>
-    <form onSubmit={onSubmit} > 
     <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
       <Typography variant="h2" component="h2" sx={{ color: '#2862f5' }}>
-        {params.id ? "Editar doctor" : "Registrar doctor"}
+        Detalles del doctor
       </Typography>
     </Stack>  
     {successMessage && (
@@ -237,9 +236,6 @@ const Form = () => {
       )}
       <LoadingBackdrop isLoading={isLoading} />
     <MainCard sx={{ padding: 3, mb: 2 }}> {/* Añade margen inferior */}
-        <Typography variant="h4" component="h4" sx={{ mb: 2, color: theme.palette.text.primary }}>
-            Detalles del doctor
-        </Typography>
         
         <Stack spacing={2}>
             <Grid item xs={6} sm={6} md={6}>
@@ -256,6 +252,7 @@ const Form = () => {
                     {...register("firstName")} 
                     error={!!errors.firstName} 
                     helperText={errors.firstName} 
+                    disabled
                   />
                 )}
               />
@@ -274,6 +271,7 @@ const Form = () => {
                     {...register("lastName")} 
                     error={!!errors.lastName} 
                     helperText={errors.lastName} 
+                    disabled
                   />
                 )}
               />
@@ -289,6 +287,7 @@ const Form = () => {
                     id="specialtyId"
                     label="Seleccione especialidad"
                     fullWidth
+                    disabled
                     >
                     {specialties.map((specialty) => (
                         <MenuItem key={specialty.id} value={specialty.id}>
@@ -312,6 +311,7 @@ const Form = () => {
                     {...register("phone")} 
                     error={!!errors.phone} 
                     helperText={errors.phone} 
+                    disabled
                   />
                 )}
                 />    
@@ -328,6 +328,7 @@ const Form = () => {
                     {...register("cedula")} 
                     error={!!errors.cedula} 
                     helperText={errors.cedula} 
+                    disabled
                   />
                 )}
                 />
@@ -336,6 +337,7 @@ const Form = () => {
                 <Controller
                     control={control}
                     name="gender"
+                    disabled
                     render={({ field }) => (
                     <Select
                         {...field}
@@ -363,6 +365,7 @@ const Form = () => {
                     helperText={errors.perfil} 
                     multiline
                     rows={4}
+                    disabled
                   />
                 )}
               />            
@@ -380,85 +383,12 @@ const Form = () => {
                     {...register("email")} 
                     error={!!errors.email} 
                     helperText={errors.email} 
+                    disabled
                   />
                 )}
-              /> 
-              <Controller
-                name="password"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    required
-                    fullWidth
-                    label="Contraseña"
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    {...register("password")} 
-                    error={!!errors.password} 
-                    helperText={errors.password}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}                     
-                  />
-                )}
-              />
-              <Controller
-                name="confirmPassword"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    required
-                    fullWidth
-                    label="Confirmar contraseña"
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "confirmPassword"}
-                    {...register("confirmPassword")} 
-                    error={!!errors.confirmPassword} 
-                    helperText={errors.confirmPassword}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            edge="end"
-                          >
-                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}                     
-                  />
-                )}
-              />                                                                                
+              />                                                                  
         </Stack>
     </MainCard>
-
-    <Stack direction="row" justifyContent="flex-end" sx={{ pr: 1 }}>
-        <Button
-            variant="contained"
-            color="primary"
-            startIcon={<Add />}
-            sx={{
-                borderRadius: '20px',
-                mt: 1, 
-            }}
-            type="submit"
-        >
-            {params.id ? "Editar doctor" : "Registrar doctor"}
-        </Button>
-    </Stack>
-    </form>
 </>
   );
 };

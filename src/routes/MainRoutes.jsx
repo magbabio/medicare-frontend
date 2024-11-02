@@ -15,6 +15,7 @@ const SpecialtiesForm = Loadable(lazy(() => import('views/utilities/Form')));
 const SpecialtiesShow = Loadable(lazy(() => import('views/utilities/Show')));
 const SpecialtiesTrash = Loadable(lazy(() => import('views/utilities/Trash')));
 const DoctorsList = Loadable(lazy(() => import('views/doctors/List')));
+const DoctorsShow = Loadable(lazy(() => import('views/doctors/Show')));
 const DoctorsForm = Loadable(lazy(() => import('views/doctors/Form')));
 const DoctorsTrash = Loadable(lazy(() => import('views/doctors/Trash')));
 
@@ -80,6 +81,10 @@ const MainRoutes = {
       path: 'doctors/create',
       element: <DoctorsForm />
     },  
+    {
+      path: 'doctors/show/:id',
+      element: <DoctorsShow />
+    },
     {
       path: 'doctors/trash',
       element: <DoctorsTrash />
